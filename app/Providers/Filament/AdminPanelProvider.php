@@ -43,12 +43,15 @@ class AdminPanelProvider extends PanelProvider
             ->brandName(__("E-commerce")) // SET THE NAME OF THE WEBSITE
             // ->brandLogo(url()) // SET THE LOGO URL
             // ->favicon(url()) // SET THE FAVICON URL
+            // ->colors([
+            //     'primary' => Color::Amber,
+            // ])
             ->colors([
                 // 'primary' => Color::Amber,
                 'danger' => Color::Rose,
                 'gray' => Color::Slate,
                 'info' => Color::Blue,
-                'primary' => Color::Indigo,
+                'primary' => Color::Emerald,
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
