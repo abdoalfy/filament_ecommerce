@@ -115,7 +115,6 @@ class ProductResource extends Resource
                                     ->label('Main Image')
                                     ->image()
                                     ->directory('uploads/products/main_images')
-                                    ->disk('public')
                                     ->required(),
 
                                 Repeater::make('images')

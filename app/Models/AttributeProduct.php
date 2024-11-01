@@ -20,9 +20,14 @@ class AttributeProduct extends Model
         'extra_price',
     ];
 
+    // public function product()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // }
+
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function attribute()
@@ -35,10 +40,10 @@ class AttributeProduct extends Model
         return $this->belongsTo(Variant::class);
     }
 
-    // public function images()
-    // {
-    //     return $this->hasMany(AttributeProductImage::class);
-    // }
+    public function images()
+    {
+        return $this->hasMany(AttributeProductImage::class);
+    }
 
 
     public function attributeProductImages()

@@ -41,15 +41,19 @@ class Product extends Model
     }
 
 
-    public function attributeProductsomImages(){
-        return $this->belongsTo(AttributeProductImage::class);
-    }
-
-    public function attributeProductImages()
+    // Accessor for the main image URL
+    public function getMainImageUrlAttribute()
     {
-        return $this->hasManyThrough(AttributeProductImage::class, AttributeProduct::class, 'product_id', 'attribute_product_id');
+        return $this->main_image ? asset('storage/' . $this->main_image) : null;
     }
 
+    // Accessor to retrieve all images for attributes
+    public function getAttributeImagesAttribute()
+    {
+        return $this->attributeProductImages->map(function ($image) {
+            return asset('storage/' . $image->image); // Assuming `image` column holds the path for attribute images
+        });
+    }
 
     public function InvoiceItem(){
         return $this->hasMany(InvoiceItem::class);

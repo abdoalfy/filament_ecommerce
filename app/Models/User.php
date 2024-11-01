@@ -7,10 +7,14 @@ namespace App\Models;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+
 
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
@@ -21,7 +25,7 @@ use Spatie\Activitylog\{
     LogOptions
 };
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
     use SoftDeletes;
@@ -77,7 +81,7 @@ class User extends Authenticatable
         parent::boot();
         // dd();
         static::saving(function ($model) {
-        
+            /*
             // remove any previous roles
             $model->syncRoles([]);
             // add new role
@@ -93,7 +97,7 @@ class User extends Authenticatable
                 // Unset password so it won't be updated
                 unset($model->password);
             }
-            
+            */
 
         });
 
@@ -117,5 +121,22 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->logAll();
+    }
+
+
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
