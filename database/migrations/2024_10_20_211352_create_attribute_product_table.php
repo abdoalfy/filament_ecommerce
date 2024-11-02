@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('attribute_id')->constrained('attributes')->cascadeOnDelete(); 
             $table->foreignId('variant_id')->constrained('variants')->cascadeOnDelete(); 
             $table->integer('extra_price')->nullable();
+            $table->integer('quantity')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });

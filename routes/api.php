@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Users\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,9 @@ Route::post('copoun',[CheckoutController::class,'applyCoupon'])->middleware('aut
 Route::get('myfatoorah/success',[CheckoutController::class,'success'])->name('myfatoorah.success');
 Route::get('myfatoorah/error',[CheckoutController::class,'error'])->name('myfatoorah.error');
 //end Payment routes
+
+
+//start route for signle category 
+Route::get('category/{slug}',[ProductController::class,'singleCategory'])->name('single.category');
+Route::get('product/{slug}',[ProductController::class,'singleProduct'])->name('single.product');
+Route::get('categories',[ProductController::class,'allCategories'])->name('all.categories');

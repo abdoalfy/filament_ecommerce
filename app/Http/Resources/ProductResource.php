@@ -7,28 +7,22 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+
     public function toArray($request)
     {
-        $locale = app()->getLocale();
-        $name = json_decode($this->name, true);
-        $description = json_decode($this->description, true);
-
         return [
-            'productId' => $this->id,
-            'name' => $name[$locale] ?? $name['en'],
-            'description' => $description[$locale] ?? $description['en'],
-            'mainImage' => $this->main_image_url,
+            'id' => $this->id,
+            'name' => $this->name,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'mainImage' => $this->main_image,
             'basePrice' => $this->base_price,
-            'categoryId' => $this->category_id,
             'points' => $this->points,
             'status' => $this->status,
-            'quantity' => $this->whenPivotLoaded('carts', fn() => $this->pivot->quantity),
-            'attributeImages' => $this->attribute_images,
+            'category'=>$this->whenLoaded('category'),
+            'images' => ProductImageResource::collection($this->whenLoaded('images')),
+         //'attributes' => AttributeResource::collection($this->whenLoaded('attributes')),
+            'attributeProducts' => AttributeProductResource::collection($this->whenLoaded('attributeProducts')),
         ];
     }
 }
