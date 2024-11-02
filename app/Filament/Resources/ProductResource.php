@@ -10,6 +10,7 @@ use App\Models\Variant;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -73,9 +74,6 @@ class ProductResource extends Resource
                                 Forms\Components\TextInput::make('slug')
                                     ->label('Product Slug')
                                     ->required()
-                                    ->live(onBlur:true)
-                                    ->dehydrated()
-                                    ->maxLength(255)
                                     ->readOnly(),
 
                                 Forms\Components\TextInput::make('base_price')
@@ -164,6 +162,15 @@ class ProductResource extends Resource
                                     Forms\Components\TextInput::make('extra_price')
                                         ->label('Extra Price')
                                         ->numeric(),
+
+                                    TextInput::make('quantity')
+                                    ->numeric()
+                                    ->required()
+                                    ->minLength(1)
+                                    ->validationMessages([
+                                        'required'=> __('this fieled is requierd 1')
+                                    ])
+                                    ->label('avialbel quantity'),
                     
                                     // Repeater for attribute-specific images
                                     Repeater::make('attributeProductImages')

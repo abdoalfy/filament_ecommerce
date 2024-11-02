@@ -101,8 +101,8 @@ class User extends Authenticatable implements JWTSubject
             }
             */
 
-        });
 
+        });
     }
 
     /**
@@ -141,4 +141,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+
+
+
 }

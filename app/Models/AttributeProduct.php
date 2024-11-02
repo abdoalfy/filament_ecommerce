@@ -18,6 +18,7 @@ class AttributeProduct extends Model
         'attribute_id',
         'variant_id',
         'extra_price',
+        'quantity',
     ];
 
     // public function product()
@@ -50,4 +51,5 @@ class AttributeProduct extends Model
     {
         return $this->hasMany(AttributeProductImage::class);
     }
+
 }

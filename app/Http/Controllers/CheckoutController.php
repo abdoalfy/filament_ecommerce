@@ -75,6 +75,8 @@ class CheckoutController extends Controller
                 $this->products[] = $product;
                 $this->totalPrice += ($product->base_price + $productAttribute->extra_price) * $product->quantity;
             }
+            $productAttribute->quantity -=$product->quantity;
+            $productAttribute->save();
         }
 
         // Apply coupon if available
@@ -304,12 +306,7 @@ class CheckoutController extends Controller
     }
 
 
-
-
-
-
-
-        //send copoun in the cart page before checkout the ensure it work or not ---not decrement it limit as
+    //send copoun in the cart page before checkout the ensure it work or not ---not decrement it limit as
     //the fornt end will send me it again during crateorder (checkout process) then her i will decrement the limit
     public function applyCoupon(Request $request) {
         $coupon = Copoun::where('copoun', $request->input('copoun'))->first();
@@ -363,5 +360,5 @@ class CheckoutController extends Controller
             'data' => [],
         ]);
     }
-    
+
 }
