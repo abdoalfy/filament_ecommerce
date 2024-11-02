@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Users\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,13 @@ Route::post('cart/deleteItem', [CartController::class, 'deleteFromCart'])->middl
 Route::post('cart/delete', [CartController::class, 'deleteCart'])->middleware('auth:api');
 //end cart routes
 
+
+//start order routes
+Route::get('order',[CheckoutController::class,'index'])->middleware('auth:api');
+Route::post('copoun',[CheckoutController::class,'applyCoupon'])->middleware('auth:api');
+//start order routes
+
+//start Payment routes
+Route::get('myfatoorah/success',[CheckoutController::class,'success'])->name('myfatoorah.success');
+Route::get('myfatoorah/error',[CheckoutController::class,'error'])->name('myfatoorah.error');
+//end Payment routes
