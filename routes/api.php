@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TestMoniaController;
 use App\Http\Controllers\Users\AuthController;
+use App\Http\Middleware\SetLanguage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +42,19 @@ Route::get('myfatoorah/error',[CheckoutController::class,'error'])->name('myfato
 //end Payment routes
 
 
-//start route for signle category 
-Route::get('category/{slug}',[ProductController::class,'singleCategory'])->name('single.category');
-Route::get('product/{slug}',[ProductController::class,'singleProduct'])->name('single.product');
-Route::get('categories',[ProductController::class,'allCategories'])->name('all.categories');
+//start route for products and categories 
+Route::get('category/{slug}',[ProductController::class,'singleCategory'])->name('single.category')->middleware(SetLanguage::class);
+Route::get('product/{slug}',[ProductController::class,'singleProduct'])->name('single.product')->middleware(SetLanguage::class);
+Route::get('categories',[ProductController::class,'allCategories'])->name('all.categories')->middleware(SetLanguage::class);
+Route::get('products',[ProductController::class,'allProducts'])->name('all.products')->middleware(SetLanguage::class);
+//end route for products and categories 
+
+
+//start routes for test monia 
+Route::get('testmonia',[TestMoniaController::class,'index'])->middleware(SetLanguage::class);
+//end routes for test monia 
+
+
+Route::get('favorites',[FavoriteController::class,'index'])->middleware(SetLanguage::class);
+Route::post('changeFavorite',[FavoriteController::class,'changeFavorite'])->middleware('auth:api');
+Route::get('userFav',[FavoriteController::class,'userFav'])->middleware('auth:api',SetLanguage::class);

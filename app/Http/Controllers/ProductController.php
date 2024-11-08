@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filament\Resources\ProductResource as ResourcesProductResource;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
@@ -87,4 +88,17 @@ class ProductController extends Controller
         ]);
    
     }
+
+
+    public function allProducts()
+    {
+        $products = Product::with('category', 'images', 'attributes', 'variants', 'attributeProducts.attribute', 'attributeProducts.variant', 'attributeProducts.images')
+            ->paginate(10);    
+        return response()->json([
+            'status' => 'success',
+            'message' => 'all products',
+            'data' => ProductResource::collection($products),
+        ]);
+    }
+    
 }
