@@ -58,4 +58,6 @@ class Product extends Model
     public function InvoiceItem(){
         return $this->hasMany(InvoiceItem::class);
     }
+
+
 }
