@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestMoniaController;
 use App\Http\Controllers\Users\AuthController;
@@ -14,12 +15,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
 //the authintications route start
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 Route::get('profile', [AuthController::class, 'userProfile'])->middleware('auth:api');
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+Route::post('updateProfile', [AuthController::class, 'updateProfile'])->middleware('auth:api');
 //the authintication routes end 
 
 //start cart routes
@@ -54,7 +57,13 @@ Route::get('products',[ProductController::class,'allProducts'])->name('all.produ
 Route::get('testmonia',[TestMoniaController::class,'index'])->middleware(SetLanguage::class);
 //end routes for test monia 
 
-
+//start favorite routes
 Route::get('favorites',[FavoriteController::class,'index'])->middleware(SetLanguage::class);
 Route::post('changeFavorite',[FavoriteController::class,'changeFavorite'])->middleware('auth:api');
 Route::get('userFav',[FavoriteController::class,'userFav'])->middleware('auth:api',SetLanguage::class);
+//end favorite routes 
+
+
+//start active payment methods route
+Route::get('activePaymentMethods',[PaymentMethodsController::class,'allPaymentMethods']);
+//end active payment method route
