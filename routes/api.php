@@ -8,7 +8,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TestMoniaController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Middleware\SetLanguage;
+use App\Mail\UserRegister;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -19,7 +22,7 @@ Route::get('/user', function (Request $request) {
 //the authintications route start
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
-Route::get('profile', [AuthController::class, 'userProfile'])->middleware('auth:api');
+Route::get('profile', [AuthController::class, 'userProfile'])->name('profile')->middleware('auth:api');
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
 Route::post('updateProfile', [AuthController::class, 'updateProfile'])->middleware('auth:api');
@@ -67,3 +70,10 @@ Route::get('userFav',[FavoriteController::class,'userFav'])->middleware('auth:ap
 //start active payment methods route
 Route::get('activePaymentMethods',[PaymentMethodsController::class,'allPaymentMethods']);
 //end active payment method route
+
+
+Route::get('/send', function () {
+    Mail::to('abdoalfy898@gmail.com')->send(new UserRegister(Auth::user()));
+    return response('sending');
+})->middleware('auth:api');
+
