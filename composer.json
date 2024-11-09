@@ -21,6 +21,8 @@
         "myfatoorah/laravel-package": "2.1",
         "php-open-source-saver/jwt-auth": "^2.3",
         "serv5group/whatscloudapi": "^1.0",
+        "symfony/http-client": "^7.1",
+        "symfony/mailgun-mailer": "^7.1",
         "tomatophp/filament-api": "^1.0",
         "tomatophp/filament-menus": "^1.0",
         "z3d0x/filament-logger": "^0.7.2"

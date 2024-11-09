@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'log'),
+    'default' => env('MAIL_MAILER', 'mailgun'),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,6 +75,14 @@ return [
             'channel' => env('MAIL_LOG_CHANNEL'),
         ],
 
+
+        'mailgun' => [
+            'transport' => 'mailgun',
+            // 'client' => [
+            //     'timeout' => 5,
+            // ],
+        ],
+
         'array' => [
             'transport' => 'array',
         ],
@@ -109,8 +117,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'ecommerce@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Ecommerce'),
     ],
 
 ];
