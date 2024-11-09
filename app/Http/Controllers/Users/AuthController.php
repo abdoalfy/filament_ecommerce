@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -30,6 +33,7 @@ class AuthController extends Controller
         $user = Auth::user();
         return response()->json([
                 'status' => 'success',
+                'message' => 'User login successfully',
                 'user' => $user,
                 'authorisation' => [
                     'token' => $token,
@@ -66,8 +70,15 @@ class AuthController extends Controller
 
 
     public function userProfile() {
-        return response()->json(auth()->user());
+        $user = auth()->user();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User profile successfully',
+            'data' => new UserResource($user),
+        ]);
     }
+
+
 
     public function logout()
     {
@@ -75,6 +86,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged out',
+            'data' =>[],
         ]);
     }
 
@@ -82,11 +94,66 @@ class AuthController extends Controller
     {
         return response()->json([
             'status' => 'success',
+            'message' => 'token refreshed Successfully',
             'user' => Auth::user(),
             'authorisation' => [
                 'token' => Auth::refresh(),
                 'type' => 'bearer',
             ]
+        ]);
+    }
+
+
+    public function updateProfile(Request $request){
+        // Validate the input
+        $validator = Validator::make($request->all(), [
+            'email'    => [
+                Rule::unique('users')->ignore(auth()->user()->id),
+            ],
+            'name'     => 'string',
+            'phone'    => [
+                'nullable', // If phone is not required, add nullable
+                Rule::unique('users')->ignore(auth()->user()->id),
+            ],
+            'profile_photo_path' => 'nullable|image', // Make it nullable in case no photo is uploaded
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 422);
+        }
+    
+        // Get the authenticated user
+        $user = auth()->user();
+    
+        // Handle profile photo upload if present
+        if ($request->hasFile('profile_photo_path')) {
+            // Store the image and get the path
+            $path = $request->file('profile_photo_path')->store('profile_photos', 'public');
+            $user->profile_photo_path = $path;
+        }
+    
+        // If the user has provided a password, hash and update it
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->password);
+        }
+    
+        // Update other user details
+        $user->name = $request->input('name', $user->name);
+        $user->email = $request->input('email', $user->email);
+        $user->phone = $request->input('phone', $user->phone);
+        $user->lastname = $request->input('lastname', $user->lastname);
+    
+        // Save the changes
+        $user->save();
+    
+        // Return the updated user data
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Profile updated successfully',
+            'data' => new UserResource($user),
         ]);
     }
 }
