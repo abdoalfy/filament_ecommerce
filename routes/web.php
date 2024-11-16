@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SocilaLoginController;
 use App\Http\Controllers\Users\AuthController;
 use App\Mail\UserRegister;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+//google
+Route::get('auth/google',[SocilaLoginController::class,'redirecttogoogle']);
+Route::get('auth/google/callback',[SocilaLoginController::class,'googlecallback']);
+
+
+//github
+Route::get('auth/github',[SocilaLoginController::class,'redirecttogithub']);
+Route::get('auth/github/callback',[SocilaLoginController::class,'githubcallback']);
+
+
+//facebook
+Route::get('auth/facebook',[SocilaLoginController::class,'redirecttofaceook']);
+Route::get('auth/facebook/callback',[SocilaLoginController::class,'facebookcallback']);
 
 require __DIR__.'/auth.php';
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SocilaLoginController;
 use App\Http\Controllers\TestMoniaController;
 use App\Http\Controllers\Users\AuthController;
 use App\Http\Middleware\SetLanguage;
@@ -72,8 +73,23 @@ Route::get('activePaymentMethods',[PaymentMethodsController::class,'allPaymentMe
 //end active payment method route
 
 
+//email test
 Route::get('/send', function () {
     Mail::to('abdoalfy898@gmail.com')->send(new UserRegister(Auth::user()));
     return response('sending');
 })->middleware('auth:api');
+
+
+
+//start socialite auth
+
+
+Route::get('/auth/facebook',[SocilaLoginController::class,'redirecttofaceook']);
+Route::get('/auth/facebook/callback',[SocilaLoginController::class,'facebookcallback']);
+
+
+
+
+//end socialite auth
+
 
