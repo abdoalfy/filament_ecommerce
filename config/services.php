@@ -43,4 +43,26 @@ return [
         ],
     ],
 
+
+    //social login services
+
+    'facebook' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => 'http://localhost/test_filament/auth/facebook/callback',
+    ],
+
+    'google' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => 'http://localhost/test_filament/auth/google/callback',
+    ],
+
+    'github' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => 'http://localhost/test_filament/auth/github/callback',
+    ],
+    
+
 ];

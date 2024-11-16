@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         \App\Http\Middleware\SetLanguage::class;
-
+        \Illuminate\Session\Middleware\StartSession::class;
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class;
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
